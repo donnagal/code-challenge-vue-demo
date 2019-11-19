@@ -51,6 +51,8 @@
         
         </form>
 
+        <global-component></global-component>
+
 
         
         <div class="container mx-auto lg:py-10 text-center ">
@@ -79,13 +81,10 @@
                         </div>
 
 
-                         <div v-show="active" class="absolute bottom-0 left-0 w-full z-0">
-                             <button v-on:click="isHidden = !isHidden"
-                                class="mx-auto lg:mx-0 hover:underline gradient text-white font-bold rounded-full smy-6 py-4 px-8 shadow-lg">
-                                    + <i class="fas fa-shopping-cart"></i>
-                             </button>
-                         </div>
 
+                         <div v-show="active" class="absolute bottom-0 left-0 w-full z-0">
+                            <button-cart></button-cart>
+                         </div>
                     </div>
             </div>
         </div>
@@ -158,8 +157,8 @@
 
 
 
-    <script src="js/main.min.js"></script>
-<script src="js/vue.js"></script>
+        <script src="js/main.min.js"></script>
+        <script src="js/vue/vue.js"></script>
 
 
     <script>AOS.init();</script>
