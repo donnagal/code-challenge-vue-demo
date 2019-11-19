@@ -51,10 +51,7 @@
         
         </form>
 
-        <global-component></global-component>
 
-
-        
         <div class="container mx-auto lg:py-10 text-center ">
                 <h2 class="text-3xl font-bold text-gray-900">Pick your premium </h2>
                 <p class="mt-1 mb-4 px-10">Lorem ipsum dolor sit, amet consectetur adipisicing elit.</p>
@@ -119,16 +116,23 @@
                 </div>
         
                 <!--Body-->
-                <div v-if="isEnter">
-                    <input class="transition focus:outline-0 border border-transparent focus:bg-white focus:border-gray-300 placeholder-gray-600 rounded-lg bg-gray-200 py-2 pr-4 pl-10 block w-full appearance-none leading-normal ds-input mt-5" 
-                        type="text" placeholder="User Name" autocomplete="off" spellcheck="false">
-
-                    <input class="transition focus:outline-0 border border-transparent focus:bg-white focus:border-gray-300 placeholder-gray-600 rounded-lg bg-gray-200 py-2 pr-4 pl-10 block w-full appearance-none leading-normal ds-input mt-3 mb-3" 
-                        type="text" placeholder="Password" autocomplete="off" spellcheck="false">
-
-                    <button v-on:click="isEnter = !isEnter"
-                        class="w-full bg-transparent hover:bg-indigo-500 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded mb-8">Enter</button>
+                <form id="form" method="post" v-on:submit="validateForm">
+                <div class="my-3" v-bind:class="{ 'has-warning': attemptSubmit && missingName }">
+                    <label class="hidden" for="name">Name</label>
+                    <input id="name" name="name" placeholder="User Name" class="transition focus:outline-0 border border-transparent focus:bg-white focus:border-gray-300 placeholder-gray-600 rounded-lg bg-gray-200 py-2 pr-4 pl-10 block w-full appearance-none leading-normal ds-input" type="text" v-model="name">
+                    <div class="text-xs text-red-500 pl-8 pt-1" v-if="attemptSubmit && missingName">This field is required.</div>
                 </div>
+                
+                <div class="mb-6" v-bind:class="{ 'has-warning': attemptSubmit && wrongNumber }">
+                    <label class="hidden" for="number">Enter a number between 1 and 10</label>
+                    <input id="number" name="number"  placeholder="Enter a number between 1 and 10" class="transition focus:outline-0 border border-transparent focus:bg-white focus:border-gray-300 placeholder-gray-600 rounded-lg bg-gray-200 py-2 pr-4 pl-10 block w-full appearance-none leading-normal ds-input" type="text" v-model="number">
+                    <div class="text-xs text-red-500 pl-8 pt-1" v-if="attemptSubmit && wrongNumber">Make sure this is a number between 1 and 10.</div>
+                </div>
+                
+                    <button v-on:click="isHidden = !isHidden" v-if="!missingName && !wrongNumber" class="w-full bg-transparent hover:bg-indigo-500 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded mb-8">Enter</button>
+                </form>
+
+
                 
                 <div v-if="!isEnter"
                     class="text-center">
@@ -137,7 +141,7 @@
                 </div>
 
                 <!--Footer-->
-                <div class="flex justify-end pt-2">
+                <div class="flex justify-end pt-5">
                     <a v-if="isEnter" href="#" class="px-4 bg-transparent p-3 rounded-lg text-indigo-500 hover:bg-gray-100 hover:text-indigo-400 mr-2">Don't have an account?</a>
                     <button v-if="isEnter" v-on:click="isHidden = !isHidden" class=" px-4 bg-indigo-500 p-3 rounded-lg text-white hover:bg-indigo-400">Close</button>
                     <button v-if="!isEnter" v-on:click="isCloseAdd = !isCloseAdd" class=" px-4 bg-indigo-500 p-3 rounded-lg text-white hover:bg-indigo-400">Close</button>
@@ -147,6 +151,10 @@
             </div>
         </div>
         
+
+
+
+
       </div>
 
 

@@ -1,7 +1,3 @@
-Vue.component ('global-component',{
-  template:'<div class="box">Imma a global component</div>'
-  });
-
 
 new Vue({
   el: '#items',
@@ -9,6 +5,9 @@ new Vue({
     this.paginate_total = this.items.length/this.paginate;
   },
   data: {
+    name: '',
+    number: '',
+    attemptSubmit: false,
      current: 1,
      isHidden: true,
      isEnter: true,
@@ -56,7 +55,24 @@ new Vue({
     search_filter: '',
     status_filter: ''
   },
+  computed: {
+    missingName: function () { return this.name === ''; },
+    wrongNumber: function () {
+      return (
+        this.isNumeric(this.number) === false ||
+        this.number < 1 ||
+        this.number > 10
+      )
+    },
+  },
   methods: {
+    isNumeric: function (n) {
+      return !isNaN(parseFloat(n)) && isFinite(n);
+    },
+    validateForm: function (event) {
+      this.attemptSubmit = true;
+      if (this.missingName || this.wrongNumber) event.preventDefault();
+    },
     setPaginate: function (i) {
       if (this.current == 1) {
         return i < this.paginate;
