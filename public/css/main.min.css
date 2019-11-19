@@ -2,4 +2,4 @@
  * Template - Template for Tailwind v4.1.1 (https://tailwind-css-template.netlify.com/)
  * 2019-2019 Donna Galletta
  * Licensed under MIT (Template for Tailwind/blob/master/LICENSE)
- */.gradient{background:linear-gradient(90deg,#d53369 0,#daae51 100%)}
+ */.gradient{background:linear-gradient(90deg,#d53369 0,#daae51 100%)}.card button{opacity:0}.card:hover button{opacity:1}

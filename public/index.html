@@ -61,8 +61,7 @@
   
                 
                 <div class="flex flex-wrap lg:mx-32">
-                    <div class="lg:w-1/2 md:w-1/2 w-full p-5 relative z-0"
-                            @mouseover="mouseOver"
+                    <div class="card lg:w-1/2 md:w-1/2 w-full p-5 relative z-0"
                             v-for="item in items | filterBy search_filter in 'name' | filterBy status_filter in 'group'" 
                             v-show="setPaginate($index)">
 
@@ -82,8 +81,11 @@
 
 
 
-                         <div v-show="active" class="absolute bottom-0 left-0 w-full z-0">
-                            <button-cart></button-cart>
+                         <div class="absolute bottom-0 left-0 w-full z-0">
+                            <button v-on:click="isHidden = !isHidden" 
+                                class="mx-auto lg:mx-0 gradient text-white font-bold rounded-full smy-6 py-4 px-8 shadow-lg"> 
+                                    + <i class="fas fa-shopping-cart"></i> 
+                            </button>
                          </div>
                     </div>
             </div>

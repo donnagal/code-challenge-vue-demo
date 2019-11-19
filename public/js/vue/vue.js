@@ -2,14 +2,6 @@ Vue.component ('global-component',{
   template:'<div class="box">Imma a global component</div>'
   });
 
-var ButtonCart = { template: '<button v-on:click="isHidden = !isHidden"\
-         class="mx-auto lg:mx-0 hover:underline gradient text-white font-bold rounded-full smy-6 py-4 px-8 shadow-lg">\
-             + <i class="fas fa-shopping-cart"></i>\
-      </button>'
-};
-
-
-
 
 new Vue({
   el: '#items',
@@ -18,7 +10,6 @@ new Vue({
   },
   data: {
      current: 1,
-     active: false,
      isHidden: true,
      isEnter: true,
      isCloseAdd: true,
@@ -66,9 +57,6 @@ new Vue({
     status_filter: ''
   },
   methods: {
-    mouseOver: function(){
-      this.active = !this.active;   
-    },
     setPaginate: function (i) {
       if (this.current == 1) {
         return i < this.paginate;
@@ -91,5 +79,4 @@ new Vue({
       this.paginate_total = Math.ceil(document.querySelectorAll('tbody tr').length/this.paginate);
     }
   },
-  components: {'button-cart' : ButtonCart },
 });

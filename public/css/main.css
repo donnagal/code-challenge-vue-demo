@@ -6,3 +6,11 @@
 .gradient {
   background: linear-gradient(90deg, #d53369 0%, #daae51 100%);
 }
+
+.card button {
+  opacity: 0;
+}
+
+.card:hover button {
+  opacity: 1;
+}
