@@ -15,6 +15,12 @@ new Vue({
      isLogged: true,
      selectChoice: [],
      sortKey: '',
+     sortSettings: [
+      { 'name' : true },
+      { 'publishDate' : true },
+      { 'duration': true },
+    ],
+    desc: true,
      items: [
       { 
         name: 'React - basics', 
@@ -69,9 +75,10 @@ new Vue({
     }
   },
   methods: {
-    sortBy: function(sortKey) {
-      this.reverse = (this.sortKey == sortKey) ? ! this.reverse : false;
-      this.sortKey = sortKey;
+    orderBy: function(sorKey) {
+      this.sortKey = sorKey
+      this.sortSettings[sorKey] = !this.sortSettings[sorKey]
+      this.desc = this.sortSettings[sorKey]
     },
     isNumeric: function (n) {
       return !isNaN(parseFloat(n)) && isFinite(n);
