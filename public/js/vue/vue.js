@@ -10,8 +10,10 @@ new Vue({
     attemptSubmit: false,
      current: 1,
      isHidden: true,
-     isEnter: true,
+     isEnter: false,
      isCloseAdd: true,
+     selectChoice: [],
+     sortKey: '',
      items: [
       { 
         name: 'React - basics', 
@@ -63,9 +65,13 @@ new Vue({
         this.number < 1 ||
         this.number > 10
       )
-    },
+    }
   },
   methods: {
+    sortBy: function(sortKey) {
+      this.reverse = (this.sortKey == sortKey) ? ! this.reverse : false;
+      this.sortKey = sortKey;
+    },
     isNumeric: function (n) {
       return !isNaN(parseFloat(n)) && isFinite(n);
     },
