@@ -37,7 +37,7 @@
 
                 <div class="lg:w-1/2 ml-4 lg:ml-0 lg:text-left">
                     <span class="text-gray-600 py-2 pr-10 font-bold">Sort by:</span>
-                    <button class="lg:w-auto w-10 text-white py-2 rounded pr-10 font-bold" @click.prevent="orderBy('publishDate')"><i class="far fa-calendar-alt"></i> <span class="hidden lg:inline-block">Date</span></button> |
+                    <button class="lg:w-auto w-10 text-white py-2 rounded pr-10 font-bold" @click.prevent="orderBy('date')" disabled><i class="far fa-calendar-alt"></i> <span class="hidden lg:inline-block">Date</span></button> |
                     <button class="lg:w-auto w-10 text-white py-2 rounded px-10 font-bold" @click.prevent="orderBy('duration')"><i class="far fa-clock"></i> <span class="hidden lg:inline-block">Duration</span></button> <span class="hidden lg:inline-block">|</span>
                     <button class="lg:w-auto w-10 text-white py-2 rounded px-10 font-bold text-xs hidden lg:inline-block" @click.prevent="setStatus('css')">CSS</button>
                     <button class="lg:w-auto w-10 text-white py-2 rounded px-10 font-bold text-xs hidden lg:inline-block" @click.prevent="setStatus('js')">JS</button>

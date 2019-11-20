@@ -16,8 +16,8 @@ new Vue({
      selectChoice: [],
      sortKey: '',
      sortSettings: [
-      { 'name' : true },
-      { 'publishDate' : true },
+      { 'name': true },
+      { 'publishDate': true },
       { 'duration': true },
     ],
     desc: true,
