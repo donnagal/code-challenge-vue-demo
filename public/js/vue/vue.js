@@ -12,6 +12,7 @@ new Vue({
      isHidden: true,
      isEnter: false,
      isCloseAdd: true,
+     isLogged: true,
      selectChoice: [],
      sortKey: '',
      items: [
