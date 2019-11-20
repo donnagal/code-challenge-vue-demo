@@ -28,23 +28,28 @@
 
 <div id="items">
   
-        <form class="bg-black p-5 text-center text-gray-600 realtive z-10">
-          <input type="text" class="p-2 bg-grey-darker w-1/4" placeholder="Search" v-model="search_filter" @keyup="updatePaginate">
-          <button class="text-white py-2 rounded px-10 font-bold bg-gray-800" @click.prevent="setStatus('')">All</button>
-          <span class="text-gray-600 py-2 px-10 font-bold">Sort by:</span>
-          <button class="text-white py-2 rounded px-10 font-bold" @click.prevent="sort('date')"><i class="far fa-calendar-alt"></i> Date</button> |
-          <button class="text-white py-2 rounded px-10 font-bold" @click.prevent="sort('duration')"><i class="far fa-clock"></i> Duration</button> |
-          <button class="text-white py-2 rounded px-10 font-bold text-xs" @click.prevent="setStatus('css')">CSS</button>
-          <button class="text-white py-2 rounded px-10 font-bold text-xs" @click.prevent="setStatus('js')">JS</button>
-        
-    
+        <form class="bg-black p-5 text-center text-gray-600 realtive z-10 flex content-start flex-wrap">
 
-          <div class="absolute right-0 top-0 m-5">
-            <button class="w-32 text-black bg-white py-2 rounded px-10 font-bold"><i class="fas fa-shopping-cart"></i></button>
-            <div v-if="isEnter" class="w-32 bg-green-500 text-white text-xs py-3 px-5">
-                <div v-html="selectChoice.join('<br/><br/>')"></div>
-            </div>
-          </div>
+                <div class="lg:w-1/2 m-4 lg:m-0">
+                        <input type="text" class="p-2 bg-grey-darker lg:w-1/2" placeholder="Search" v-model="search_filter" @keyup="updatePaginate">
+                        <button class="text-white py-2 rounded px-10 font-bold bg-gray-800" @click.prevent="setStatus('')">All</button>
+                    </div>
+
+                <div class="lg:w-1/2 ml-4 lg:ml-0 lg:text-left">
+                    <span class="text-gray-600 py-2 pr-10 font-bold">Sort by:</span>
+                    <button class="lg:w-auto w-10 text-white py-2 rounded pr-10 font-bold" @click.prevent="sort('date')"><i class="far fa-calendar-alt"></i> <span class="hidden lg:inline-block">Date</span></button> |
+                    <button class="lg:w-auto w-10 text-white py-2 rounded px-10 font-bold" @click.prevent="sort('duration')"><i class="far fa-clock"></i> <span class="hidden lg:inline-block">Duration</span></button> <span class="hidden lg:inline-block">|</span>
+                    <button class="lg:w-auto w-10 text-white py-2 rounded px-10 font-bold text-xs hidden lg:inline-block" @click.prevent="setStatus('css')">CSS</button>
+                    <button class="lg:w-auto w-10 text-white py-2 rounded px-10 font-bold text-xs hidden lg:inline-block" @click.prevent="setStatus('js')">JS</button>
+                </div>
+          
+                <div class="lg:absolute right-0 top-0 m-5 lg:w-auto  w-full">
+                    <button class="lg:w-32 w-full text-black bg-white py-2 rounded px-10 font-bold"><i class="fas fa-shopping-cart"></i></button>
+                    <div v-if="isEnter" class="lg:w-32 w-full bg-green-500 text-white text-xs py-3 px-5">
+                        <div v-html="selectChoice.join('<br/><br/>')"></div>
+                    </div>
+                </div>
+
         </form>
 
 
@@ -160,7 +165,7 @@
                     <!--Title-->
                     <div class="flex justify-between items-center pb-8">
                     <p class="text-xl font-bold">Successful Login!</p>
-                    <div class="modal-close cursor-pointer z-50">
+                    <div v-on:click="isLogged = !isLogged" class="modal-close cursor-pointer z-50">
                         <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
                         <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
                         </svg>
@@ -169,8 +174,6 @@
 
                     <!--Body-->
                     <i class="text-5xl fas fa-user-check"></i>
-
-
                             <!--Footer-->
                             <div class="flex justify-end pt-5">
                                 <button v-on:click="isLogged = !isLogged" class=" px-4 bg-indigo-500 p-3 rounded-lg text-white hover:bg-indigo-400">Close</button>
