@@ -13,8 +13,6 @@
       
         <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
-        <link href="https://unpkg.com/aos@2.3.3/dist/aos.css" rel="stylesheet">
 
     
     <link href="css/main.min.css" rel="stylesheet">
@@ -37,7 +35,7 @@
 
                 <div class="lg:w-1/2 ml-4 lg:ml-0 lg:text-left">
                     <span class="text-gray-600 py-2 pr-10 font-bold">Sort by:</span>
-                    <button class="lg:w-auto w-10 text-white py-2 rounded pr-10 font-bold" @click.prevent="orderBy('date')" disabled><i class="far fa-calendar-alt"></i> <span class="hidden lg:inline-block">Date</span></button> |
+                    <button class="lg:w-auto w-10 text-white py-2 rounded pr-10 font-bold" @click.prevent="orderBy('publishDate')"><i class="far fa-calendar-alt"></i> <span class="hidden lg:inline-block">Date</span></button> |
                     <button class="lg:w-auto w-10 text-white py-2 rounded px-10 font-bold" @click.prevent="orderBy('duration')"><i class="far fa-clock"></i> <span class="hidden lg:inline-block">Duration</span></button> <span class="hidden lg:inline-block">|</span>
                     <button class="lg:w-auto w-10 text-white py-2 rounded px-10 font-bold text-xs hidden lg:inline-block" @click.prevent="setStatus('css')">CSS</button>
                     <button class="lg:w-auto w-10 text-white py-2 rounded px-10 font-bold text-xs hidden lg:inline-block" @click.prevent="setStatus('js')">JS</button>
@@ -193,7 +191,6 @@
     <!-- Plugin JavaScript -->
     <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.26/vue.min.js'></script>
     <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="https://unpkg.com/aos@2.3.3/dist/aos.js"></script>
 
 
 
@@ -201,7 +198,6 @@
         <script src="js/vue/vue.js"></script>
 
 
-    <script>AOS.init();</script>
   </body>
 
 </html>

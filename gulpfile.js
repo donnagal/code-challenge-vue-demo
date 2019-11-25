@@ -1,114 +1,156 @@
-var gulp = require('gulp');
-var sass = require('gulp-sass');
-var header = require('gulp-header');
-var cleanCSS = require('gulp-clean-css');
-var rename = require("gulp-rename");
-var uglify = require('gulp-uglify');
-var pkg = require('./package.json');
-var browserSync = require('browser-sync').create();
+(() => {
 
-// Set the banner content
-var banner = ['/*!\n',
-  ' * Template - <%= pkg.title %> v<%= pkg.version %> (<%= pkg.homepage %>)\n',
-  ' * 2019-' + (new Date()).getFullYear(), ' <%= pkg.author %>\n',
-  ' * Licensed under <%= pkg.license %> (<%= pkg.name %>/blob/master/LICENSE)\n',
-  ' */\n',
-  ''
-].join('');
+  'use strict';
 
-// Copy third party libraries from /node_modules into /vendor
-gulp.task('vendor', function() {
+  /**************** Gulp.js 4 configuration ****************/
+
+  const
+
+    // development or production
+    devBuild  = ((process.env.NODE_ENV || 'development').trim().toLowerCase() === 'development'),
+
+    // directory locations
+    dir = {
+      src         : 'src/',
+      build       : 'build/'
+    },
+
+    // modules
+    gulp          = require('gulp'),
+    del           = require('del'),
+    noop          = require('gulp-noop'),
+    newer         = require('gulp-newer'),
+    size          = require('gulp-size'),
+    imagemin      = require('gulp-imagemin'),
+    sass          = require('gulp-sass'),
+    postcss       = require('gulp-postcss'),
+    sourcemaps    = devBuild ? require('gulp-sourcemaps') : null,
+    browsersync   = devBuild ? require('browser-sync').create() : null;
 
 
-  // Font Awesome
-  gulp.src([
-      './node_modules/font-awesome/**/*',
-      '!./node_modules/font-awesome/{less,less/*}',
-      '!./node_modules/font-awesome/{scss,scss/*}',
-      '!./node_modules/font-awesome/.*',
-      '!./node_modules/font-awesome/*.{txt,json,md}'
-    ])
-    .pipe(gulp.dest('./public/vendor/font-awesome'))
+  console.log('Gulp', devBuild ? 'development' : 'production', 'build');
 
-  // jQuery
-  gulp.src([
-      './node_modules/jquery/dist/*',
-      '!./node_modules/jquery/dist/core.js'
-    ])
-    .pipe(gulp.dest('./public/vendor/jquery'))
 
-  // jQuery Easing
-  gulp.src([
-      './node_modules/jquery.easing/*.js'
-    ])
-    .pipe(gulp.dest('./public/vendor/jquery-easing'))
+  /**************** clean task ****************/
 
-});
+  function clean() {
 
-// Compile SCSS
-gulp.task('css:compile', function() {
-  return gulp.src('./scss/**/*.scss')
-    .pipe(sass.sync({
-      outputStyle: 'expanded'
-    }).on('error', sass.logError))
-    .pipe(header(banner, {
-      pkg: pkg
-    }))
-    .pipe(gulp.dest('./public/css'))
-});
+    return del([ dir.build ]);
 
-// Minify CSS
-gulp.task('css:minify', ['css:compile'], function() {
-  return gulp.src([
-      './public/css/*.css',
-      '!./public/css/*.min.css'
-    ])
-    .pipe(cleanCSS())
-    .pipe(rename({
-      suffix: '.min'
-    }))
-    .pipe(gulp.dest('./public/css'))
-    .pipe(browserSync.stream());
-});
+  }
+  exports.clean = clean;
+  exports.wipe = clean;
 
-// CSS
-gulp.task('css', ['css:compile', 'css:minify']);
 
-// Minify JavaScript
-gulp.task('js:minify', function() {
-  return gulp.src([
-      './public/js/*.js',
-      '!./public/js/*.min.js'
-    ])
-    .pipe(uglify())
-    .pipe(rename({
-      suffix: '.min'
-    }))
-    .pipe(header(banner, {
-      pkg: pkg
-    }))
-    .pipe(gulp.dest('./public/js'))
-    .pipe(browserSync.stream());
-});
+  /**************** images task ****************/
 
-// JS
-gulp.task('js', ['js:minify']);
+  const imgConfig = {
+    src           : dir.src + 'images/**/*',
+    build         : dir.build + 'images/',
 
-// Default task
-gulp.task('default', ['css', 'js', 'vendor']);
-
-// Configure the browserSync task
-gulp.task('browserSync', function() {
-  browserSync.init({
-    server: {
-      baseDir: "./public/"
+    minOpts: {
+      optimizationLevel: 5
     }
-  });
-});
+  };
 
-// Dev task
-gulp.task('dev', ['css', 'js', 'browserSync'], function() {
-  gulp.watch('./scss/*.scss', ['css']);
-  gulp.watch('./public/js/*.js', ['js']);
-  gulp.watch('./public/*.html', browserSync.reload);
-});
+  function images() {
+
+    return gulp.src(imgConfig.src)
+      .pipe(newer(imgConfig.build))
+      .pipe(imagemin(imgConfig.minOpts))
+      .pipe(size({ showFiles:true }))
+      .pipe(gulp.dest(imgConfig.build));
+
+  }
+  exports.images = images;
+
+
+  /**************** CSS task ****************/
+
+  const cssConfig = {
+
+    src         : dir.src + 'scss/main.scss',
+    watch       : dir.src + 'scss/**/*',
+    build       : dir.build + 'css/',
+    sassOpts: {
+      sourceMap       : devBuild,
+      outputStyle     : 'nested',
+      imagePath       : '/images/',
+      precision       : 3,
+      errLogToConsole : true
+    },
+
+    postCSS: [
+      require('postcss-assets')({
+        loadPaths: ['images/'],
+        basePath: dir.build
+      }),
+      require('autoprefixer')({
+        browsers: ['> 1%']
+      })
+    ]
+
+  };
+
+  // remove unused selectors and minify production CSS
+  if (!devBuild) {
+
+    cssConfig.postCSS.push(
+      require('usedcss')({ html: ['index.html'] }),
+      require('cssnano')
+    );
+
+  }
+
+  function css() {
+
+    return gulp.src(cssConfig.src)
+      .pipe(sourcemaps ? sourcemaps.init() : noop())
+      .pipe(sass(cssConfig.sassOpts).on('error', sass.logError))
+      .pipe(postcss(cssConfig.postCSS))
+      .pipe(sourcemaps ? sourcemaps.write() : noop())
+      .pipe(size({ showFiles:true }))
+      .pipe(gulp.dest(cssConfig.build))
+      .pipe(browsersync ? browsersync.reload({ stream: true }) : noop());
+
+  }
+  exports.css = gulp.series(images, css);
+
+
+  /**************** server task (now private) ****************/
+
+  const syncConfig = {
+    server: {
+      baseDir   : './',
+      index     : 'index.html'
+    },
+    port        : 8000,
+    open        : false
+  };
+
+  // browser-sync
+  function server(done) {
+    if (browsersync) browsersync.init(syncConfig);
+    done();
+  }
+
+
+  /**************** watch task ****************/
+
+  function watch(done) {
+
+    // image changes
+    gulp.watch(imgConfig.src, images);
+
+    // CSS changes
+    gulp.watch(cssConfig.watch, css);
+
+    done();
+
+  }
+
+  /**************** default task ****************/
+
+  exports.default = gulp.series(exports.css, watch, server);
+
+})();
