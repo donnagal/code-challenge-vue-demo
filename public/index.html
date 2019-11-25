@@ -18,6 +18,7 @@
     <link href="css/main.min.css" rel="stylesheet">
 
 
+    
   </head>
 
 <body class="bg-gray-200">
@@ -59,7 +60,7 @@
                 
                 <div class="flex flex-wrap lg:mx-32">
                     <div class="card lg:w-1/2 md:w-1/2 w-full p-5 relative z-0"
-                            v-for="item in items | filterBy search_filter in 'name' | filterBy status_filter in 'group' | | orderBy sortKey desc" 
+                            v-for="item in items | filterBy search_filter in 'name'  | filterBy status_filter in 'group' | | orderBy sortKey desc" 
                             v-show="setPaginate($index)">
 
                         <div class="bg-white px-8 py-10 shadow-lg">
