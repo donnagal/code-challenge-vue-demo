@@ -10,6 +10,7 @@
  * Licensed under MIT (Template for Tailwind/blob/master/LICENSE)
  */
 .gradient {
+  background: -webkit-gradient(linear, left top, right top, from(#d53369), to(#daae51));
   background: linear-gradient(90deg, #d53369 0%, #daae51 100%);
 }
 
